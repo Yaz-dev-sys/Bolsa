@@ -1,0 +1,304 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Empresas | Bolsa de Trabajo Atizapán{% endblock %}
+
+
+{% block content %}
+<!-- Header Section -->
+<section class="empresas-header">
+    <div class="container">
+        <div class="header-content">
+            <h1 class="page-title">
+                <i class="fas fa-building"></i>
+                Portal de Empresas
+            </h1>
+            <p class="page-subtitle">Encuentra el talento que necesitas para hacer crecer tu empresa</p>
+        </div>
+    </div>
+</section>
+
+<!-- Mensajes -->
+{% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                {{ message }}
+                <button type="button" class="close-alert" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Contenedor Principal -->
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <!-- Tabs de navegación -->
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+                </button>
+                <button class="tab-btn" data-tab="register">
+                    <i class="fas fa-user-plus"></i>
+                    Registrarse
+                </button>
+            </div>
+
+            <!-- Formulario de Login -->
+            <div id="login-form" class="auth-form active">
+                <div class="form-header">
+                    <h2>Iniciar Sesión</h2>
+                    <p>Accede a tu panel de empresa</p>
+                </div>
+
+                <form method="post" class="login-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login">
+                    
+                    <div class="form-group">
+                        <label for="correo_admin_login">Correo de Administrador</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" 
+                                   id="correo_admin_login" 
+                                   name="correo_admin" 
+                                   required 
+                                   placeholder="admin@empresa.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password_login">Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" 
+                                   id="password_login" 
+                                   name="password" 
+                                   required 
+                                   placeholder="Tu contraseña">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Iniciar Sesión
+                    </button>
+                </form>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="register-form" class="auth-form">
+                <div class="form-header">
+                    <h2>Registrar Empresa</h2>
+                    <p>Únete a nuestra plataforma de empleos</p>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="register-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register">
+                    
+                    <!-- Información Básica -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Información Básica</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre_empresa">Nombre de la Empresa *</label>
+                                <input type="text" 
+                                       id="nombre_empresa" 
+                                       name="nombre_empresa" 
+                                       required 
+                                       placeholder="Ej: TechSolutions SA de CV">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="correo_contacto">Correo de Contacto *</label>
+                                <input type="email" 
+                                       id="correo_contacto" 
+                                       name="correo_contacto" 
+                                       required 
+                                       placeholder="contacto@empresa.com">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url_bolsa_trabajo">URL de Bolsa de Trabajo</label>
+                            <input type="url" 
+                                   id="url_bolsa_trabajo" 
+                                   name="url_bolsa_trabajo" 
+                                   placeholder="https://empresa.com/empleos">
+                        </div>
+                    </div>
+
+                    <!-- Tipo de Régimen -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-balance-scale"></i> Tipo de Régimen</h3>
+                        
+                        <div class="form-group">
+                            <label for="regimen">Selecciona tu Régimen *</label>
+                            <select id="regimen" name="regimen" required onchange="cargarDocumentos(this.value)">
+                                <option value="">Selecciona un régimen</option>
+                                {% for regimen in tipos_regimen %}
+                                    <option value="{{ regimen.id }}">{{ regimen.nombre_regimen }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Documentos Requeridos (se carga dinámicamente) -->
+                        <div id="documentos-container" class="documentos-section" style="display: none;">
+                            <h4><i class="fas fa-file-alt"></i> Documentos Requeridos</h4>
+                            <div id="documentos-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Archivos -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-upload"></i> Archivos</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="logo_empresa">Logo de la Empresa</label>
+                                <input type="file" 
+                                       id="logo_empresa" 
+                                       name="logo_empresa" 
+                                       accept="image/*">
+                                <small>Máximo 20MB, formatos: JPG, PNG, GIF</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="carta_compromiso">Carta Compromiso</label>
+                                <div class="file-download">
+                                    <a href="{% static 'documentos/carta.pdf' %}" 
+                                       target="_blank" 
+                                       class="btn btn-download">
+                                        <i class="fas fa-download"></i>
+                                        Descargar Formato
+                                    </a>
+                                    <input type="file" 
+                                           id="carta_compromiso" 
+                                           name="carta_compromiso" 
+                                           accept=".pdf">
+                                    <small>Descarga, firma y sube la carta compromiso</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credenciales -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-key"></i> Credenciales de Acceso</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="correo_administrador">Correo de Administrador *</label>
+                                <input type="email" 
+                                       id="correo_administrador" 
+                                       name="correo_administrador" 
+                                       required 
+                                       placeholder="admin@empresa.com">
+                                <small>Este será tu usuario para acceder al sistema</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password_register">Contraseña *</label>
+                                <input type="password" 
+                                       id="password_register" 
+                                       name="password" 
+                                       required 
+                                       placeholder="Mínimo 8 caracteres">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-user-plus"></i>
+                        Registrar Empresa
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Cambiar entre tabs
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const authForms = document.querySelectorAll('.auth-form');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Actualizar botones
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Actualizar formularios
+            authForms.forEach(form => form.classList.remove('active'));
+            document.getElementById(targetTab + '-form').classList.add('active');
+        });
+    });
+});
+
+// Cargar documentos según régimen seleccionado
+function cargarDocumentos(regimenId) {
+    const container = document.getElementById('documentos-container');
+    const lista = document.getElementById('documentos-list');
+    
+    if (!regimenId) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    // Hacer petición AJAX
+    fetch(`/empresas/documentos/?regimen_id=${regimenId}`)
+        .then(response => response.json())
+        .then(data => {
+            lista.innerHTML = '';
+            
+            data.documentos.forEach(doc => {
+                const docElement = document.createElement('div');
+                docElement.className = 'documento-item';
+                docElement.innerHTML = `
+                    <label for="documento_${doc.id}" class="documento-label">
+                        <span class="documento-nombre">
+                            ${doc.nombre}
+                            ${doc.obligatorio ? '<span class="required">*</span>' : ''}
+                        </span>
+                        <input type="file" 
+                               id="documento_${doc.id}" 
+                               name="documento_${doc.id}" 
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               ${doc.obligatorio ? 'required' : ''}>
+                    </label>
+                `;
+                lista.appendChild(docElement);
+            });
+            
+            container.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error al cargar documentos:', error);
+        });
+}
+
+// Auto-cerrar alertas después de 5 segundos
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        }, 5000);
+    });
+});
+</script>
+{% endblock %}

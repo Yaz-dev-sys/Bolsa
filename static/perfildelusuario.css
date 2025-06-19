@@ -1,0 +1,1019 @@
+/* perfil_usuario.css - Estilo Institucional Atizapán de Zaragoza */
+
+/* Importar tipografías institucionales */
+@import url('https://fonts.googleapis.com/css2?family=Averta:wght@300;400;500;600;700&family=Newake:wght@400;500;600;700&display=swap');
+
+/* ========================================
+   VARIABLES INSTITUCIONALES EXACTAS
+   ======================================== */
+:root {
+    /* Colores Institucionales Atizapán - EXACTOS */
+    --primary-purple: #4d4383;        /* Morado principal institucional */
+    --primary-blue: #6767a5;          /* Azul principal institucional */
+    --primary-teal: #56858d;          /* Verde azulado institucional */
+    --primary-cyan: #79b0cc;          /* Cian institucional */
+    --primary-pink: #b64f80;          /* Rosa institucional */
+    --institutional-gray: #585958;     /* Gris institucional */
+    
+    /* Gradientes institucionales usando SOLO colores oficiales */
+    --gradient-primary: linear-gradient(135deg, #4d4383 0%, #6767a5 50%, #56858d 100%);
+    --gradient-secondary: linear-gradient(45deg, #79b0cc 0%, #56858d 100%);
+    --gradient-accent: linear-gradient(135deg, #b64f80 0%, #4d4383 100%);
+    
+    /* Tipografías institucionales */
+    --font-primary: 'Averta', system-ui, -apple-system, sans-serif;
+    --font-secondary: 'Newake', Georgia, serif;
+    
+    /* Colores de estado usando paleta institucional */
+    --success-color: #56858d;         /* Verde azulado para éxito */
+    --warning-color: #b64f80;         /* Rosa para advertencias */
+    --danger-color: #ef4444;          /* Rojo para errores */
+    --info-color: #79b0cc;           /* Cian para información */
+    
+    /* Colores neutros necesarios */
+    --white: #ffffff;
+    --light-bg: #f8fafc;
+    --gray-50: #fafbfc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    
+    /* Espaciado usando colores institucionales */
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --shadow-sm: 0 2px 4px rgba(77, 67, 131, 0.08);
+    --shadow-md: 0 8px 25px rgba(77, 67, 131, 0.15);
+    --shadow-lg: 0 16px 40px rgba(77, 67, 131, 0.20);
+    --shadow-xl: 0 24px 50px rgba(77, 67, 131, 0.25);
+    
+    /* Transiciones */
+    --transition-fast: 0.15s ease-out;
+    --transition-normal: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
+}
+
+/* Reset de tipografía */
+* {
+    font-family: var(--font-primary);
+}
+
+/* ========================================
+   MENSAJES
+   ======================================== */
+.messages-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.alert {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    font-family: var(--font-primary);
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-left-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.alert-error {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    border-left-color: var(--danger-color);
+    color: #dc2626;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #f0f9ff, #dbeafe);
+    border-left-color: var(--info-color);
+    color: var(--info-color);
+}
+
+.close-alert {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-left: auto;
+    opacity: 0.7;
+    color: inherit;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: var(--transition-fast);
+}
+
+.close-alert:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   HEADER DEL PERFIL
+   ======================================== */
+.perfil-header {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.perfil-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="60" cy="40" r="1" fill="rgba(255,255,255,0.12)"/></svg>') repeat;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-10px) translateX(5px); }
+    66% { transform: translateY(5px) translateX(-5px); }
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.usuario-avatar {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.avatar-circle {
+    width: 90px;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: var(--transition-normal);
+}
+
+.avatar-circle:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.avatar-info h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--white);
+}
+
+.usuario-email {
+    margin: 0 0 0.75rem 0;
+    opacity: 0.95;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.usuario-nivel {
+    background: var(--gradient-accent);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   BOTONES
+   ======================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-align: center;
+    letter-spacing: 0.25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition-slow);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background: var(--gradient-secondary);
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.6);
+    color: var(--white);
+}
+
+.btn-sm {
+    padding: 0.625rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* ========================================
+   GRID PRINCIPAL
+   ======================================== */
+.perfil-main {
+    margin-bottom: 3rem;
+}
+
+.perfil-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+/* ========================================
+   PANELES
+   ======================================== */
+.perfil-panel {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    border: 2px solid var(--gray-200);
+    transition: var(--transition-normal);
+}
+
+.perfil-panel:hover {
+    border-color: var(--primary-teal);
+    box-shadow: var(--shadow-lg);
+}
+
+.aplicaciones-panel,
+.stats-panel {
+    grid-column: span 1;
+}
+
+.panel-header {
+    background: var(--gradient-primary);
+    padding: 1.5rem;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+}
+
+.panel-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: var(--font-secondary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.panel-content {
+    padding: 2rem;
+}
+
+/* ========================================
+   INFORMACIÓN PERSONAL
+   ======================================== */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item label {
+    font-weight: 600;
+    color: var(--primary-purple);
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    letter-spacing: 0.25px;
+}
+
+.info-item span {
+    color: var(--institutional-gray);
+    padding: 1rem 0;
+    border-bottom: 2px solid var(--gray-200);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* ========================================
+   FORMULARIO DE EDICIÓN
+   ======================================== */
+.perfil-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--primary-purple);
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    letter-spacing: 0.25px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 1rem;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    transition: var(--transition-normal);
+    background: var(--white);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-teal);
+    box-shadow: 0 0 0 4px rgba(86, 133, 141, 0.1);
+    transform: translateY(-2px);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--gray-200);
+}
+
+/* ========================================
+   DOCUMENTOS
+   ======================================== */
+.documentos-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.documento-item {
+    background: var(--gray-50);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    align-items: center;
+    transition: var(--transition-normal);
+}
+
+.documento-item:hover {
+    border-color: var(--primary-teal);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.documento-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.documento-info i {
+    font-size: 2rem;
+    color: var(--primary-blue);
+}
+
+.documento-details h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-purple);
+    font-family: var(--font-secondary);
+}
+
+.documento-details p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--institutional-gray);
+    font-weight: 500;
+}
+
+.documento-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.documento-upload {
+    display: flex;
+    align-items: center;
+}
+
+.upload-form {
+    display: inline-block;
+}
+
+.upload-form label {
+    cursor: pointer;
+    transition: var(--transition-normal);
+    background: var(--light-bg) !important;
+    border: 2px solid var(--gray-300) !important;
+    color: var(--institutional-gray) !important;
+    padding: 0.625rem 1rem !important;
+    border-radius: var(--border-radius) !important;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.upload-form label:hover {
+    background: var(--gray-100) !important;
+    border-color: var(--primary-teal) !important;
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   STATUS BADGES
+   ======================================== */
+.status-badge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: var(--font-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.status-badge.success {
+    background: rgba(86, 133, 141, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.warning {
+    background: rgba(182, 79, 128, 0.1);
+    color: var(--warning-color);
+}
+
+.status-badge.pendiente {
+    background: rgba(88, 89, 88, 0.1);
+    color: var(--institutional-gray);
+}
+
+.status-badge.aceptado {
+    background: rgba(86, 133, 141, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge.rechazado {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.status-badge:hover::before {
+    left: 100%;
+}
+
+/* ========================================
+   APLICACIONES
+   ======================================== */
+.aplicaciones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.aplicacion-card {
+    background: var(--gray-50);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: var(--transition-normal);
+}
+
+.aplicacion-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+    border-color: var(--primary-teal);
+}
+
+.aplicacion-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-purple);
+    font-family: var(--font-secondary);
+}
+
+.empresa-nombre {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+.aplicacion-fecha {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--institutional-gray);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.aplicacion-status {
+    flex-shrink: 0;
+}
+
+/* ========================================
+   ESTADÍSTICAS
+   ======================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.stat-item {
+    background: var(--gray-50);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: var(--transition-normal);
+}
+
+.stat-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-teal);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: var(--gradient-primary);
+    color: var(--white);
+    transition: var(--transition-normal);
+}
+
+.stat-item:hover .stat-icon {
+    transform: scale(1.1);
+}
+
+.stat-content h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-purple);
+    font-family: var(--font-secondary);
+}
+
+.stat-content p {
+    margin: 0;
+    color: var(--institutional-gray);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   ESTADÍSTICAS MINI
+   ======================================== */
+.aplicaciones-stats {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--gray-200);
+}
+
+.stats-summary {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.stat-mini {
+    text-align: center;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: var(--border-radius);
+    flex: 1;
+    border: 2px solid var(--gray-200);
+    transition: var(--transition-normal);
+}
+
+.stat-mini:hover {
+    border-color: var(--primary-teal);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-purple);
+    margin-bottom: 0.25rem;
+    font-family: var(--font-secondary);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--institutional-gray);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================
+   ESTADO VACÍO
+   ======================================== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--institutional-gray);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-blue);
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: var(--primary-purple);
+    font-family: var(--font-secondary);
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin: 0 0 1.5rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 1024px) {
+    .perfil-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .documento-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .documento-actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-header {
+        padding: 2rem 0;
+    }
+    
+    .usuario-avatar {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .avatar-info h1 {
+        font-size: 1.75rem;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .header-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .panel-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-summary {
+        flex-direction: column;
+    }
+    
+    .aplicacion-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .aplicacion-status {
+        align-self: flex-end;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .panel-content {
+        padding: 1.5rem;
+    }
+    
+    .panel-header {
+        padding: 1.25rem;
+    }
+    
+    .documento-item {
+        padding: 1.25rem;
+    }
+    
+    .stat-item,
+    .stat-mini {
+        padding: 1rem;
+    }
+    
+    .btn {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.85rem;
+    }
+    
+    .btn-sm {
+        padding: 0.625rem 1rem;
+        font-size: 0.75rem;
+    }
+    
+    .avatar-circle {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+    }
+    
+    .avatar-info h1 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.perfil-panel {
+    animation: fadeInUp 0.6s ease;
+    animation-fill-mode: both;
+}
+
+.perfil-panel:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.perfil-panel:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.perfil-panel:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.perfil-panel:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* ========================================
+   MEJORAS PARA ACCESIBILIDAD
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible para mejor accesibilidad */
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.upload-form label:focus-visible {
+    outline: 3px solid var(--primary-teal);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   EFECTOS ESPECIALES INSTITUCIONALES
+   ======================================== */
+.institutional-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ========================================
+   ESTILOS PARA IMPRESIÓN
+   ======================================== */
+@media print {
+    .messages-container,
+    .header-actions,
+    .form-actions,
+    .documento-upload,
+    .btn {
+        display: none !important;
+    }
+    
+    .perfil-header {
+        background: white !important;
+        color: black !important;
+        padding: 1rem 0 !important;
+    }
+    
+    .perfil-panel {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid var(--institutional-gray) !important;
+    }
+    
+    .panel-header {
+        background: var(--gray-100) !important;
+        color: var(--primary-purple) !important;
+    }
+}

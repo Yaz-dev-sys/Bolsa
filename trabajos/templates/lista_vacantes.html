@@ -1,0 +1,609 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if solo_mujeres %}
+        Vacantes para Mujeres | Bolsa de Trabajo Atizapán
+    {% else %}
+        Todas las Vacantes | Bolsa de Trabajo Atizapán
+    {% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'listavacantes.css' %}">
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+
+<!-- Header Section -->
+<section class="vacantes-header">
+    <div class="container">
+        <div class="header-content">
+            {% if solo_mujeres %}
+                <h1 class="page-title">
+                    <i class="fas fa-venus"></i>
+                    Vacantes Exclusivas para Mujeres
+                </h1>
+                <p class="page-subtitle">Oportunidades laborales diseñadas para impulsar el talento femenino</p>
+            {% else %}
+                <h1 class="page-title">
+                    <i class="fas fa-briefcase"></i>
+                    Todas las Vacantes Disponibles
+                </h1>
+                <p class="page-subtitle">Encuentra la oportunidad laboral perfecta para ti</p>
+            {% endif %}
+            
+            <div class="stats-bar">
+                <span class="stat-item">
+                    <strong>{{ total_vacantes }}</strong> 
+                    {% if solo_mujeres %}vacantes para mujeres{% else %}vacantes disponibles{% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros de Búsqueda -->
+<section class="filtros-section">
+    <div class="container">
+        <form method="GET" class="filtros-form">
+            {% if not solo_mujeres %}
+                <!-- FILTROS PARA VACANTES GENERALES -->
+                <div class="filtros-grid">
+                    <!-- Búsqueda por texto -->
+                    <div class="filtro-item">
+                        <label for="search">Buscar:</label>
+                        <input type="text" 
+                               id="search" 
+                               name="search" 
+                               value="{{ search }}" 
+                               placeholder="Puesto, empresa, área...">
+                    </div>
+                    
+                    <!-- Filtro por área -->
+                    <div class="filtro-item">
+                        <label for="area">Área:</label>
+                        <select id="area" name="area">
+                            <option value="">Todas las áreas</option>
+                            {% for area_option in areas_disponibles %}
+                                <option value="{{ area_option }}" 
+                                        {% if area == area_option %}selected{% endif %}>
+                                    {{ area_option }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Filtro de clasificación -->
+                    <div class="filtro-item">
+                        <label for="clasificacion">Clasificación:</label>
+                        <select id="clasificacion" name="clasificacion">
+                            <option value="">Todas las vacantes</option>
+                            <option value="mujeres" {% if request.GET.clasificacion == 'mujeres' %}selected{% endif %}>Solo para mujeres</option>
+                            <option value="discapacidad" {% if request.GET.clasificacion == 'discapacidad' %}selected{% endif %}>Personas con discapacidad</option>
+                        </select>
+                    </div>
+                </div>
+            {% else %}
+                <!-- FILTROS PARA VACANTES DE MUJERES (SOLO ÁREA) -->
+                <div class="filtros-grid">
+                    <!-- Búsqueda por texto -->
+                    <div class="filtro-item">
+                        <label for="search">Buscar:</label>
+                        <input type="text" 
+                               id="search" 
+                               name="search" 
+                               value="{{ search }}" 
+                               placeholder="Puesto, empresa, área...">
+                    </div>
+                    
+                    <!-- Solo filtro por área -->
+                    <div class="filtro-item">
+                        <label for="area">Área:</label>
+                        <select id="area" name="area">
+                            <option value="">Todas las áreas</option>
+                            {% for area_option in areas_disponibles %}
+                                <option value="{{ area_option }}" 
+                                        {% if area == area_option %}selected{% endif %}>
+                                    {{ area_option }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="filtros-actions">
+                <button type="submit" class="btn btn-search">
+                    <i class="fas fa-search"></i>
+                    Buscar
+                </button>
+                <a href="{% if solo_mujeres %}{% url 'vacantes_mujeres' %}{% else %}{% url 'lista_vacantes' %}{% endif %}" 
+                   class="btn btn-clear">
+                    <i class="fas fa-times"></i>
+                    Limpiar filtros
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Lista de Vacantes -->
+<section class="vacantes-lista">
+    <div class="container">
+        {% if page_obj %}
+            <div class="vacantes-grid">
+                {% for vacante in page_obj %}
+                <div class="vacante-card {% if vacante.vacante_mujer %}vacante-mujer{% endif %}">
+                    {% if vacante.vacante_mujer %}
+                        <div class="badge-mujer">
+                            <i class="fas fa-venus"></i>
+                            Solo Mujeres
+                        </div>
+                    {% endif %}
+                    
+                    <div class="vacante-header">
+                        <div class="empresa-info">
+                            {% if vacante.empresa.logo_empresa %}
+                                <img src="{{ vacante.empresa.logo_empresa.url }}" 
+                                     alt="{{ vacante.empresa.nombre_empresa }}" 
+                                     class="empresa-logo">
+                            {% else %}
+                                <div class="empresa-logo-placeholder">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                            {% endif %}
+                            <div class="empresa-datos">
+                                <h3 class="vacante-titulo">{{ vacante.nombre_vacante }}</h3>
+                                <p class="empresa-nombre">{{ vacante.empresa.nombre_empresa }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if vacante.sueldo %}
+                            <div class="sueldo">
+                                <span class="sueldo-amount">${{ vacante.sueldo|floatformat:0 }}</span>
+                                <span class="sueldo-period">mensuales</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="vacante-details">
+                        <div class="details-grid">
+                            {% if vacante.area_desempeno %}
+                                <div class="detail-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span>{{ vacante.area_desempeno }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if vacante.delegacion %}
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>{{ vacante.delegacion }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ vacante.tipo_vacante }}</span>
+                            </div>
+                            
+                            {% if vacante.nivel_academico %}
+                                <div class="detail-item">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>{{ vacante.nivel_academico }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if vacante.descripcion_actividades %}
+                            <div class="descripcion">
+                                <p>{{ vacante.descripcion_actividades|truncatewords:20 }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="vacante-footer">
+                        <div class="fecha-info">
+                            <i class="fas fa-calendar"></i>
+                            <span>Expira: {{ vacante.fecha_expiracion|date:"d/m/Y" }}</span>
+                        </div>
+                        
+                        <div class="vacante-actions">
+                            <button data-vacante-id="{{ vacante.id }}" 
+                                    data-nombre="{{ vacante.nombre_vacante }}"
+                                    data-empresa="{{ vacante.empresa.nombre_empresa }}"
+                                    data-contacto="{{ vacante.empresa.correo_contacto }}"
+                                    data-logo="{% if vacante.empresa.logo_empresa %}{{ vacante.empresa.logo_empresa.url }}{% endif %}"
+                                    data-sueldo="{% if vacante.sueldo %}${{ vacante.sueldo|floatformat:0 }}{% endif %}"
+                                    data-area="{{ vacante.area_desempeno|default:'No especificada' }}"
+                                    data-tipo="{{ vacante.tipo_vacante }}"
+                                    data-ubicacion="{{ vacante.delegacion|default:'No especificada' }}"
+                                    data-edad-min="{{ vacante.edad_min|default:'' }}"
+                                    data-edad-max="{{ vacante.edad_max|default:'' }}"
+                                    data-educacion="{{ vacante.nivel_academico|default:'No especificado' }}"
+                                    data-titulo="{{ vacante.titulo_requerido|default:'No especificado' }}"
+                                    data-estado-civil="{{ vacante.estado_civil }}"
+                                    data-descripcion="{{ vacante.descripcion_actividades|default:'No especificada' }}"
+                                    data-expiracion="{{ vacante.fecha_expiracion|date:'d/m/Y' }}"
+                                    data-vacante-mujer="{{ vacante.vacante_mujer|yesno:'true,false' }}"
+                                    data-discapacidad="{{ vacante.personas_discapacidad|yesno:'true,false' }}"
+                                    data-adultos-mayores="{{ vacante.adultos_mayores|yesno:'true,false' }}"
+                                    class="btn btn-outline btn-ver-detalles">
+                                Ver detalles
+                            </button>
+                            
+                            {% if user.is_authenticated %}
+                                {% if not vacante.vacante_mujer or user.usuarioperfil.sexo == 'F' %}
+                                    <button class="btn btn-primary btn-aplicar" 
+                                            data-vacante-id="{{ vacante.id }}" 
+                                            onclick="aplicarVacante(this.dataset.vacanteId)">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Aplicar
+                                    </button>
+                                {% else %}
+                                    <div class="btn btn-disabled">
+                                        <i class="fas fa-lock"></i>
+                                        Solo mujeres
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login_usuario' %}?next={% url 'lista_vacantes' %}" class="btn btn-outline">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Iniciar Sesión para Aplicar
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Paginación -->
+            {% if page_obj.has_other_pages %}
+                <div class="paginacion">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.area %}&area={{ request.GET.area }}{% endif %}{% if request.GET.clasificacion %}&clasificacion={{ request.GET.clasificacion }}{% endif %}" 
+                           class="pag-btn">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.area %}&area={{ request.GET.area }}{% endif %}{% if request.GET.clasificacion %}&clasificacion={{ request.GET.clasificacion }}{% endif %}" 
+                           class="pag-btn">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    {% endif %}
+                    
+                    <span class="pag-info">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.area %}&area={{ request.GET.area }}{% endif %}{% if request.GET.clasificacion %}&clasificacion={{ request.GET.clasificacion }}{% endif %}" 
+                           class="pag-btn">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.area %}&area={{ request.GET.area }}{% endif %}{% if request.GET.clasificacion %}&clasificacion={{ request.GET.clasificacion }}{% endif %}" 
+                           class="pag-btn">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            
+        {% else %}
+            <div class="no-resultados">
+                <div class="no-resultados-content">
+                    <i class="fas fa-search"></i>
+                    <h3>No se encontraron vacantes</h3>
+                    <p>
+                        {% if solo_mujeres %}
+                            No hay vacantes exclusivas para mujeres que coincidan con tu búsqueda.
+                        {% else %}
+                            No hay vacantes que coincidan con tu búsqueda.
+                        {% endif %}
+                    </p>
+                    <a href="{% if solo_mujeres %}{% url 'vacantes_mujeres' %}{% else %}{% url 'lista_vacantes' %}{% endif %}" 
+                       class="btn btn-primary">
+                        Ver todas las vacantes
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Modal para Ver Detalles de Vacante -->
+<div id="modalDetalle" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2 id="modalTitulo" class="modal-titulo"></h2>
+            <button onclick="cerrarModal()" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="modal-content">
+            <div class="modal-empresa">
+                <div class="empresa-info-modal">
+                    <div id="modalLogoContainer" class="logo-container"></div>
+                    <div class="empresa-datos-modal">
+                        <h3 id="modalEmpresa" class="empresa-nombre-modal"></h3>
+                        <p id="modalContacto" class="empresa-contacto"></p>
+                    </div>
+                </div>
+                <div id="modalSueldo" class="sueldo-modal"></div>
+            </div>
+            
+            <div class="modal-details-grid">
+                <div class="detail-group">
+                    <h4><i class="fas fa-briefcase"></i> Información del Puesto</h4>
+                    <div class="detail-items">
+                        <div class="detail-row">
+                            <span class="label">Área:</span>
+                            <span id="modalArea" class="value"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Tipo:</span>
+                            <span id="modalTipo" class="value"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Ubicación:</span>
+                            <span id="modalUbicacion" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-group">
+                    <h4><i class="fas fa-user"></i> Requisitos</h4>
+                    <div class="detail-items">
+                        <div class="detail-row">
+                            <span class="label">Edad:</span>
+                            <span id="modalEdad" class="value"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Educación:</span>
+                            <span id="modalEducacion" class="value"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Título:</span>
+                            <span id="modalTituloRequerido" class="value"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Estado Civil:</span>
+                            <span id="modalEstadoCivil" class="value"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-group">
+                <h4><i class="fas fa-list"></i> Descripción de Actividades</h4>
+                <div id="modalDescripcion" class="descripcion-completa"></div>
+            </div>
+            
+            <div class="detail-group">
+                <h4><i class="fas fa-calendar"></i> Información Adicional</h4>
+                <div class="detail-items">
+                    <div class="detail-row">
+                        <span class="label">Fecha de expiración:</span>
+                        <span id="modalExpiracion" class="value fecha-destacada"></span>
+                    </div>
+                    <div id="modalInclusionContainer" class="inclusion-badges"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button onclick="cerrarModal()" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i>
+                Volver
+            </button>
+            <button class="btn btn-primary btn-postular" disabled>
+                <i class="fas fa-paper-plane"></i>
+                Postularse (Próximamente)
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Variables de configuración desde Django
+const isAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}";
+
+
+const loginUrl = "{% url 'login_usuario' %}";
+
+// Agregar event listeners cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar listeners a todos los botones de ver detalles
+    const botonesDetalles = document.querySelectorAll('.btn-ver-detalles');
+    botonesDetalles.forEach(function(boton) {
+        boton.addEventListener('click', function() {
+            abrirModal(this);
+        });
+    });
+});
+
+function abrirModal(boton) {
+    // Obtener datos del botón
+    const vacante = {
+        nombre: boton.getAttribute('data-nombre'),
+        empresa: boton.getAttribute('data-empresa'),
+        contacto: boton.getAttribute('data-contacto'),
+        logo: boton.getAttribute('data-logo'),
+        sueldo: boton.getAttribute('data-sueldo'),
+        area: boton.getAttribute('data-area'),
+        tipo: boton.getAttribute('data-tipo'),
+        ubicacion: boton.getAttribute('data-ubicacion'),
+        edad_min: boton.getAttribute('data-edad-min'),
+        edad_max: boton.getAttribute('data-edad-max'),
+        educacion: boton.getAttribute('data-educacion'),
+        titulo: boton.getAttribute('data-titulo'),
+        estado_civil: boton.getAttribute('data-estado-civil'),
+        descripcion: boton.getAttribute('data-descripcion'),
+        expiracion: boton.getAttribute('data-expiracion'),
+        vacante_mujer: boton.getAttribute('data-vacante-mujer') === 'true',
+        personas_discapacidad: boton.getAttribute('data-discapacidad') === 'true',
+        adultos_mayores: boton.getAttribute('data-adultos-mayores') === 'true'
+    };
+    
+    // Llenar el modal con los datos
+    document.getElementById('modalTitulo').textContent = vacante.nombre;
+    document.getElementById('modalEmpresa').textContent = vacante.empresa;
+    document.getElementById('modalContacto').textContent = vacante.contacto;
+    
+    // Logo de empresa
+    const logoContainer = document.getElementById('modalLogoContainer');
+    if (vacante.logo && vacante.logo !== '') {
+        logoContainer.innerHTML = '<img src="' + vacante.logo + '" alt="' + vacante.empresa + '" class="empresa-logo-modal">';
+    } else {
+        logoContainer.innerHTML = '<div class="empresa-logo-placeholder-modal"><i class="fas fa-building"></i></div>';
+    }
+    
+    // Sueldo
+    const sueldoElement = document.getElementById('modalSueldo');
+    if (vacante.sueldo && vacante.sueldo !== '') {
+        sueldoElement.innerHTML = '<span class="sueldo-amount">' + vacante.sueldo + '</span><span class="sueldo-period">mensuales</span>';
+        sueldoElement.style.display = 'block';
+    } else {
+        sueldoElement.style.display = 'none';
+    }
+    
+    // Detalles básicos
+    document.getElementById('modalArea').textContent = vacante.area;
+    document.getElementById('modalTipo').textContent = vacante.tipo;
+    document.getElementById('modalUbicacion').textContent = vacante.ubicacion;
+    document.getElementById('modalEducacion').textContent = vacante.educacion;
+    document.getElementById('modalTituloRequerido').textContent = vacante.titulo;
+    document.getElementById('modalEstadoCivil').textContent = vacante.estado_civil;
+    document.getElementById('modalDescripcion').textContent = vacante.descripcion;
+    document.getElementById('modalExpiracion').textContent = vacante.expiracion;
+    
+    // Rango de edad
+    const edadElement = document.getElementById('modalEdad');
+    if (vacante.edad_min && vacante.edad_max) {
+        edadElement.textContent = vacante.edad_min + ' - ' + vacante.edad_max + ' años';
+    } else if (vacante.edad_min) {
+        edadElement.textContent = vacante.edad_min + '+ años';
+    } else if (vacante.edad_max) {
+        edadElement.textContent = 'Hasta ' + vacante.edad_max + ' años';
+    } else {
+        edadElement.textContent = 'No especificado';
+    }
+    
+    // Badges de inclusión
+    const inclusionContainer = document.getElementById('modalInclusionContainer');
+    let inclusionHTML = '';
+    
+    if (vacante.vacante_mujer) {
+        inclusionHTML += '<span class="inclusion-badge mujer"><i class="fas fa-venus"></i> Solo Mujeres</span>';
+    }
+    if (vacante.personas_discapacidad) {
+        inclusionHTML += '<span class="inclusion-badge discapacidad"><i class="fas fa-wheelchair"></i> Personas con Discapacidad</span>';
+    }
+    if (vacante.adultos_mayores) {
+        inclusionHTML += '<span class="inclusion-badge adultos"><i class="fas fa-user-friends"></i> Adultos Mayores</span>';
+    }
+    
+    inclusionContainer.innerHTML = inclusionHTML;
+    
+    // Mostrar modal
+    document.getElementById('modalDetalle').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarModal() {
+    document.getElementById('modalDetalle').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Cerrar modal al hacer clic fuera
+document.getElementById('modalDetalle').addEventListener('click', function(e) {
+    if (e.target === this) {
+        cerrarModal();
+    }
+});
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('modalDetalle').style.display === 'flex') {
+        cerrarModal();
+    }
+});
+
+// Función para aplicar a una vacante
+function aplicarVacante(vacanteId) {
+    // Convertir a número si viene como string
+    vacanteId = parseInt(vacanteId);
+    
+    // Verificar si el usuario está logueado
+    if (!isAuthenticated) {
+        window.location.href = loginUrl + "?next=" + window.location.pathname;
+        return;
+    }
+    
+    // Confirmar aplicación
+    if (!confirm('¿Estás seguro de que quieres aplicar a esta vacante?')) {
+        return;
+    }
+    
+    // Mostrar loading en el botón
+    const boton = document.querySelector(`[data-vacante-id="${vacanteId}"]`);
+    const textoOriginal = boton.innerHTML;
+    boton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aplicando...';
+    boton.disabled = true;
+    
+    // Enviar aplicación
+    fetch(`/aplicar/${vacanteId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Cambiar el botón a "Aplicado"
+            boton.innerHTML = '<i class="fas fa-check"></i> Aplicado';
+            boton.classList.remove('btn-primary');
+            boton.classList.add('btn-success');
+            boton.disabled = true;
+            
+            alert('¡Aplicación enviada exitosamente! La empresa podrá ver tu perfil y CV.');
+        } else {
+            // Restaurar botón en caso de error
+            boton.innerHTML = textoOriginal;
+            boton.disabled = false;
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        boton.innerHTML = textoOriginal;
+        boton.disabled = false;
+        alert('Error al enviar la aplicación. Intenta de nuevo.');
+    });
+}
+
+// Función para obtener el CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

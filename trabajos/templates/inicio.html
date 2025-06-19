@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio | Bolsa de Trabajo Atizapán{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'inicio.css' %}">
+<link rel="stylesheet" href="{% static 'LoginUsuario.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Bolsa de Trabajo -->
+<section class="hero-bolsa">
+    <!-- Botón de Inicio de Sesión - Esquina superior derecha -->
+    <div class="login-corner">
+        <a href="{% url 'login_usuario' %}" class="btn-login-corner">
+            <svg viewBox="0 0 100 100" class="icon-login-corner">
+                <circle cx="50" cy="35" r="15" fill="#28a745"/>
+                <path d="M25 70 Q25 55 40 55 L60 55 Q75 55 75 70 L75 85 Q75 90 70 90 L30 90 Q25 90 25 85 Z" fill="#28a745"/>
+                <rect x="42" y="20" width="16" height="8" rx="2" fill="#34ce57"/>
+            </svg>
+            Iniciar Sesión
+        </a>
+       <a href="{% url 'preguntasFrecuentes' %}" class="btn-faq-corner">
+        <svg viewBox="0 0 100 100" class="icon-faq-corner">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="6"/>
+            <path d="M35 35 Q35 25 45 25 Q55 25 55 35 Q55 45 50 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="50" cy="65" r="3" fill="currentColor"/>
+        </svg>
+        Preguntas Frecuentes
+    </a>
+    </div>
+
+    <div class="hero-container">
+        <!-- Imagen principal -->
+        <div class="hero-image">
+            <img src="{% static 'imagenes/bolsadetrabajo.png' %}" alt="Bolsa de Trabajo" class="bolsa-image">
+        </div>
+        
+        <!-- Texto descriptivo -->
+        <div class="hero-text">
+            <p class="hero-description">
+                La Bolsa de Trabajo tiene como objetivo vincularte con<br>
+                diversas vacantes del sector empresarial.
+            </p>
+        </div>
+        
+        <!-- Botones principales -->
+        <div class="hero-buttons">
+            <!-- Botón Consulta nuestras vacantes -->
+            <div class="button-card">
+                <div class="button-icon">
+                    <svg viewBox="0 0 100 100" class="icon-search">
+                        <circle cx="35" cy="35" r="20" fill="#5a6c7d" stroke="#5a6c7d" stroke-width="3"/>
+                        <circle cx="35" cy="25" r="6" fill="#8fa0b3"/>
+                        <rect x="31" y="32" width="8" height="3" rx="1" fill="#8fa0b3"/>
+                        <rect x="29" y="37" width="12" height="3" rx="1" fill="#8fa0b3"/>
+                        <rect x="27" y="42" width="16" height="3" rx="1" fill="#8fa0b3"/>
+                        <circle cx="70" cy="70" r="25" fill="none" stroke="#5a6c7d" stroke-width="6"/>
+                        <line x1="85" y1="85" x2="95" y2="95" stroke="#5a6c7d" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <a href="{% url 'lista_vacantes' %}" class="btn-main btn-vacantes">Consulta nuestras vacantes</a>
+            </div>
+            
+            <!-- Botón Vacantes Para Mujeres -->
+            <div class="button-card">
+                <div class="button-icon">
+                    <svg viewBox="0 0 100 100" class="icon-female">
+                        <circle cx="50" cy="30" r="15" fill="#ec7c9b"/>
+                        <line x1="50" y1="45" x2="50" y2="85" stroke="#ec7c9b" stroke-width="8" stroke-linecap="round"/>
+                        <line x1="35" y1="75" x2="65" y2="75" stroke="#ec7c9b" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="40" y1="85" x2="60" y2="85" stroke="#ec7c9b" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <a href="{% url 'vacantes_mujeres' %}" class="btn-main btn-mujeres">Vacantes Para Mujeres</a>
+            </div>
+            
+            <!-- Botón Empresas -->
+            <div class="button-card">
+                <div class="button-icon">
+                    <svg viewBox="0 0 100 100" class="icon-building">
+                        <rect x="20" y="30" width="60" height="60" fill="#7ba7d9" rx="2"/>
+                        <rect x="30" y="15" width="40" height="25" fill="#a8c5e8" rx="2"/>
+                        <rect x="25" y="40" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="37" y="40" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="49" y="40" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="61" y="40" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="25" y="52" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="37" y="52" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="49" y="52" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="61" y="52" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="25" y="64" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="37" y="64" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="49" y="64" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="61" y="64" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="25" y="76" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="37" y="76" width="8" height="8" fill="#4a90e2"/>
+                        <rect x="55" y="76" width="14" height="14" fill="#2c5aa0"/>
+                    </svg>
+                </div>
+                <a href="{% url 'empresas' %}" class="btn-main btn-empresas">Empresas</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

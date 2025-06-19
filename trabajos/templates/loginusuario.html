@@ -1,0 +1,342 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Iniciar Sesión - Bolsa de Trabajo{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'logindelusuario.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<!-- Mensajes -->
+{% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                {{ message }}
+                <button type="button" class="close-alert" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="login-container">
+    <div class="login-wrapper">
+        <!-- Pestañas -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('login')">Iniciar Sesión</button>
+            <button class="tab-button" onclick="showTab('register')">Registrarse</button>
+        </div>
+
+        <!-- Formulario de Login -->
+        <div id="login-tab" class="tab-content active">
+            <div class="form-container">
+                <h2>Iniciar Sesión</h2>
+                <p class="form-subtitle">Accede a tu cuenta para postularte a vacantes</p>
+                
+                <form class="login-form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="login">
+                    
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                        <i class="input-icon">✉</i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required>
+                        <i class="input-icon">🔒</i>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Iniciar Sesión</button>
+                    
+                    <div class="form-links">
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div id="register-tab" class="tab-content">
+            <div class="form-container">
+                <h2>Registrarse</h2>
+                <p class="form-subtitle">Crea tu cuenta para acceder a las vacantes</p>
+                
+                <form class="register-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="register">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre_completo">Nombre Completo *</label>
+                            <input type="text" id="nombre_completo" name="nombre_completo" required
+                                   placeholder="Ej: Juan Carlos Pérez García">
+                            <small>Ingresa nombre(s) y apellidos completos</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="curp">CURP *</label>
+                            <input type="text" id="curp" name="curp" maxlength="18" required
+                                   placeholder="ABCD123456HMCDEF01" style="text-transform: uppercase;">
+                            <small>18 caracteres</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sexo">Sexo *</label>
+                            <select id="sexo" name="sexo" required>
+                                <option value="">Seleccionar</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telefono">Teléfono *</label>
+                            <input type="tel" id="telefono" name="telefono" required
+                                   placeholder="5512345678">
+                            <small>Solo números, 10 dígitos</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fecha_nacimiento">Fecha de Nacimiento *</label>
+                            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                            <small>Debes ser mayor de 18 años</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nivel_academico">Nivel Académico *</label>
+                            <select id="nivel_academico" name="nivel_academico" required>
+                                <option value="">Seleccionar</option>
+                                <option value="Sin estudios">Sin estudios</option>
+                                <option value="Primaria">Primaria</option>
+                                <option value="Secundaria">Secundaria</option>
+                                <option value="Preparatoria">Preparatoria/Bachillerato</option>
+                                <option value="Técnico">Técnico</option>
+                                <option value="Licenciatura">Licenciatura</option>
+                                <option value="Maestría">Maestría</option>
+                                <option value="Doctorado">Doctorado</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email_register">Correo Electrónico *</label>
+                        <input type="email" id="email_register" name="email" required
+                               placeholder="usuario@correo.com">
+                        <small>Este será tu usuario para iniciar sesión</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password_register">Contraseña *</label>
+                            <input type="password" id="password_register" name="password" required
+                                   minlength="8">
+                            <small>Mínimo 8 caracteres</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password_confirm">Confirmar Contraseña *</label>
+                            <input type="password" id="password_confirm" name="password_confirm" required
+                                   minlength="8">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="documento">Documento de Identidad (INE o Cartilla) *</label>
+                        <input type="file" id="documento" name="documento" 
+                               accept=".pdf,.jpg,.jpeg,.png" required>
+                        <small class="file-info">Formatos permitidos: PDF, JPG, PNG. Máximo 5MB</small>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTab(tabName) {
+    // Ocultar todas las pestañas
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    
+    // Remover clase active de todos los botones
+    const buttons = document.querySelectorAll('.tab-button');
+    buttons.forEach(button => button.classList.remove('active'));
+    
+    // Mostrar la pestaña seleccionada
+    document.getElementById(tabName + '-tab').classList.add('active');
+    
+    // Activar el botón correspondiente
+    event.target.classList.add('active');
+}
+
+// Validación en tiempo real de contraseñas
+document.addEventListener('DOMContentLoaded', function() {
+    const password = document.getElementById('password_register');
+    const confirmPassword = document.getElementById('password_confirm');
+    
+    function validatePasswords() {
+        if (password.value && confirmPassword.value) {
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('Las contraseñas no coinciden');
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        }
+    }
+    
+    password.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
+    
+    // Validación de CURP
+    const curpInput = document.getElementById('curp');
+    curpInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+        const curpPattern = /^[A-Z]{4}[0-9]{6}[HM][A-Z]{5}[0-9A-Z]{2}$/;
+        if (this.value.length === 18 && !curpPattern.test(this.value)) {
+            this.setCustomValidity('Formato de CURP inválido');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Validación de teléfono
+    const telefonoInput = document.getElementById('telefono');
+    telefonoInput.addEventListener('input', function() {
+        // Solo permitir números
+        this.value = this.value.replace(/\D/g, '');
+        
+        // Validar longitud
+        if (this.value.length < 10 || this.value.length > 15) {
+            this.setCustomValidity('El teléfono debe tener entre 10 y 15 dígitos');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Validación de fecha de nacimiento (mayor de edad)
+    const fechaNacimiento = document.getElementById('fecha_nacimiento');
+    fechaNacimiento.addEventListener('change', function() {
+        const fechaNac = new Date(this.value);
+        const hoy = new Date();
+        const edad = Math.floor((hoy - fechaNac) / (365.25 * 24 * 60 * 60 * 1000));
+        
+        if (edad < 18) {
+            this.setCustomValidity('Debes ser mayor de 18 años');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    
+    // Auto-cerrar alertas después de 5 segundos
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        }, 5000);
+    });
+});
+
+// Validación de archivo
+document.getElementById('documento').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        // Validar tamaño (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            this.setCustomValidity('El archivo no puede pesar más de 5MB');
+            this.value = '';
+            alert('El archivo no puede pesar más de 5MB');
+        } else {
+            this.setCustomValidity('');
+        }
+        
+        // Validar tipo
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+            this.setCustomValidity('Solo se permiten archivos PDF, JPG o PNG');
+            this.value = '';
+            alert('Solo se permiten archivos PDF, JPG o PNG');
+        } else {
+            this.setCustomValidity('');
+        }
+    }
+});
+</script>
+
+<style>
+/* Estilos para mensajes */
+.messages-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.alert {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: opacity 0.3s ease;
+}
+
+.alert-success {
+    background: #d1edff;
+    border-color: #0084ff;
+    color: #004085;
+}
+
+.alert-error {
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.close-alert {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: auto;
+    opacity: 0.6;
+}
+
+.close-alert:hover {
+    opacity: 1;
+}
+
+.form-group small {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 4px;
+    display: block;
+}
+
+.file-info {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+</style>
+{% endblock %}

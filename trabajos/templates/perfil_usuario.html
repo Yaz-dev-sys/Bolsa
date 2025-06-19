@@ -1,0 +1,476 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mi Perfil - {{ perfil.nombre_completo }}{% endblock %}
+
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'perfildelusuario.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<!-- Mensajes -->
+{% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
+                {{ message }}
+                <button type="button" class="close-alert" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Header del Perfil -->
+<section class="perfil-header">
+    <div class="container">
+        <div class="header-content">
+            <div class="usuario-avatar">
+                <div class="avatar-circle">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="avatar-info">
+                    <h1>{{ perfil.nombre_completo|default:"Usuario" }}</h1>
+                    <p class="usuario-email">{{ user.email }}</p>
+                    <span class="usuario-nivel">{{ perfil.nivel_academico|default:"No especificado" }}</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="toggleEditMode()">
+                    <i class="fas fa-edit"></i>
+                    <span id="edit-btn-text">Editar Perfil</span>
+                </button>
+                <a href="{% url 'lista_vacantes' %}" class="btn btn-secondary">
+                    <i class="fas fa-search"></i>
+                    Ver Vacantes
+                </a>
+                <a href="{% url 'logout_usuario' %}" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contenido Principal -->
+<section class="perfil-main">
+    <div class="container">
+        <div class="perfil-grid">
+            <!-- Panel de Información Personal -->
+            <div class="perfil-panel">
+                <div class="panel-header">
+                    <h2>
+                        <i class="fas fa-user-circle"></i>
+                        Información Personal
+                    </h2>
+                </div>
+                
+                <div class="panel-content">
+                    <!-- Vista de Solo Lectura -->
+                    <div id="info-display" class="info-display">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Nombres:</label>
+                                <span>{{ perfil.nombres|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Apellido Paterno:</label>
+                                <span>{{ perfil.apellido_paterno|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Apellido Materno:</label>
+                                <span>{{ perfil.apellido_materno|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>CURP:</label>
+                                <span>{{ perfil.curp|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Sexo:</label>
+                                <span>{{ perfil.get_sexo_display|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Teléfono:</label>
+                                <span>{{ perfil.telefono|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Fecha de Nacimiento:</label>
+                                <span>{{ perfil.fecha_nacimiento|date:"d/m/Y"|default:"No especificado" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Nivel Académico:</label>
+                                <span>{{ perfil.nivel_academico|default:"No especificado" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de Edición -->
+                    <div id="info-edit" class="info-edit" style="display: none;">
+                        <form method="post" enctype="multipart/form-data" class="perfil-form">
+                            {% csrf_token %}
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nombres">Nombres *</label>
+                                    <input type="text" id="nombres" name="nombres" 
+                                           value="{{ perfil.nombres|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellido_paterno">Apellido Paterno *</label>
+                                    <input type="text" id="apellido_paterno" name="apellido_paterno" 
+                                           value="{{ perfil.apellido_paterno|default:'' }}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="apellido_materno">Apellido Materno *</label>
+                                    <input type="text" id="apellido_materno" name="apellido_materno" 
+                                           value="{{ perfil.apellido_materno|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="tel" id="telefono" name="telefono" 
+                                           value="{{ perfil.telefono|default:'' }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nivel_academico">Nivel Académico</label>
+                                <select id="nivel_academico" name="nivel_academico">
+                                    <option value="">Seleccionar</option>
+                                    <option value="Sin estudios" {% if perfil.nivel_academico == 'Sin estudios' %}selected{% endif %}>Sin estudios</option>
+                                    <option value="Primaria" {% if perfil.nivel_academico == 'Primaria' %}selected{% endif %}>Primaria</option>
+                                    <option value="Secundaria" {% if perfil.nivel_academico == 'Secundaria' %}selected{% endif %}>Secundaria</option>
+                                    <option value="Preparatoria" {% if perfil.nivel_academico == 'Preparatoria' %}selected{% endif %}>Preparatoria</option>
+                                    <option value="Técnico" {% if perfil.nivel_academico == 'Técnico' %}selected{% endif %}>Técnico</option>
+                                    <option value="Licenciatura" {% if perfil.nivel_academico == 'Licenciatura' %}selected{% endif %}>Licenciatura</option>
+                                    <option value="Maestría" {% if perfil.nivel_academico == 'Maestría' %}selected{% endif %}>Maestría</option>
+                                    <option value="Doctorado" {% if perfil.nivel_academico == 'Doctorado' %}selected{% endif %}>Doctorado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Guardar Cambios
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="toggleEditMode()">
+                                    <i class="fas fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Documentos -->
+            <div class="perfil-panel">
+                <div class="panel-header">
+                    <h2>
+                        <i class="fas fa-file-alt"></i>
+                        Documentos
+                    </h2>
+                </div>
+                
+                <div class="panel-content">
+                    <div class="documentos-grid">
+                        <!-- Documento de Identificación -->
+                        <div class="documento-item">
+                            <div class="documento-info">
+                                <i class="fas fa-id-card"></i>
+                                <div class="documento-details">
+                                    <h4>Documento de Identificación</h4>
+                                    <p>INE o Cartilla de Servicio Militar</p>
+                                </div>
+                            </div>
+                            <div class="documento-actions">
+                                {% if perfil.documento_identificacion %}
+                                    <a href="{{ perfil.documento_identificacion.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                        Ver
+                                    </a>
+                                    <span class="status-badge success">Subido</span>
+                                {% else %}
+                                    <span class="status-badge warning">Pendiente</span>
+                                {% endif %}
+                            </div>
+                            <div class="documento-upload">
+                                <form method="post" enctype="multipart/form-data" class="upload-form">
+                                    {% csrf_token %}
+                                    <input type="file" name="documento_identificacion" accept=".pdf,.jpg,.jpeg,.png" 
+                                           onchange="this.form.submit()" style="display: none;" id="doc-id">
+                                    <label for="doc-id" class="btn btn-sm btn-outline">
+                                        <i class="fas fa-upload"></i>
+                                        {% if perfil.documento_identificacion %}Actualizar{% else %}Subir{% endif %}
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Curriculum Vitae -->
+<!-- Curriculum Vitae -->
+<div class="documento-item">
+    <div class="documento-info">
+        <i class="fas fa-file-pdf"></i>
+        <div class="documento-details">
+            <h4>Curriculum Vitae</h4>
+            <p>Tu CV actualizado (PDF recomendado)</p>
+        </div>
+    </div>
+    <div class="documento-actions">
+        {% if perfil.curriculum_vitae %}
+            <a href="{{ perfil.curriculum_vitae.url }}" target="_blank" class="btn btn-sm btn-primary">
+                <i class="fas fa-eye"></i>
+                Ver CV
+            </a>
+            <span class="status-badge success">Subido</span>
+        {% else %}
+            <span class="status-badge warning">Sin CV</span>
+        {% endif %}
+    </div>
+    <div class="documento-upload">
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            <input type="file" name="curriculum_vitae" accept=".pdf,.doc,.docx" 
+                   onchange="this.form.submit()" style="display: none;" id="cv">
+            <label for="cv" class="btn btn-sm btn-outline">
+                <i class="fas fa-upload"></i>
+                {% if perfil.curriculum_vitae %}Actualizar CV{% else %}Subir CV{% endif %}
+            </label>
+        </form>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Aplicaciones -->
+            <div class="perfil-panel aplicaciones-panel">
+                <div class="panel-header">
+                    <h2>
+                        <i class="fas fa-briefcase"></i>
+                        Mis Aplicaciones
+                    </h2>
+                    <a href="{% url 'mis_aplicaciones' %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-list"></i>
+                        Ver Todas
+                    </a>
+                </div>
+                
+                <div class="panel-content">
+                    {% if aplicaciones_recientes %}
+                        <div class="aplicaciones-list">
+                            {% for aplicacion in aplicaciones_recientes %}
+                            <div class="aplicacion-card">
+                                <div class="aplicacion-info">
+                                    <h4>{{ aplicacion.vacante.nombre_vacante }}</h4>
+                                    <p class="empresa-nombre">{{ aplicacion.vacante.empresa.nombre_empresa }}</p>
+                                    <p class="aplicacion-fecha">
+                                        <i class="fas fa-calendar"></i>
+                                        Aplicado: {{ aplicacion.fecha_aplicacion|date:"d/m/Y" }}
+                                    </p>
+                                </div>
+                                <div class="aplicacion-status">
+                                    <span class="status-badge {{ aplicacion.estado|lower }}">
+                                        {{ aplicacion.estado }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Mostrar estadísticas básicas -->
+                        <div class="aplicaciones-stats">
+                            <div class="stats-summary">
+                                <div class="stat-mini">
+                                    <span class="stat-number">{{ total_aplicaciones }}</span>
+                                    <span class="stat-label">Total</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-number">{{ aplicaciones_pendientes }}</span>
+                                    <span class="stat-label">Pendientes</span>
+                                </div>
+                                <div class="stat-mini">
+                                    <span class="stat-number">{{ aplicaciones_aceptadas }}</span>
+                                    <span class="stat-label">Aceptadas</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <h3>No tienes aplicaciones aún</h3>
+                            <p>Explora las vacantes disponibles y postúlate</p>
+                            <a href="{% url 'lista_vacantes' %}" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                                Buscar Vacantes
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let editMode = false;
+
+function toggleEditMode() {
+    const display = document.getElementById('info-display');
+    const edit = document.getElementById('info-edit');
+    const btn = document.getElementById('edit-btn-text');
+    
+    editMode = !editMode;
+    
+    if (editMode) {
+        display.style.display = 'none';
+        edit.style.display = 'block';
+        btn.textContent = 'Cancelar Edición';
+    } else {
+        display.style.display = 'block';
+        edit.style.display = 'none';
+        btn.textContent = 'Editar Perfil';
+    }
+}
+
+// Auto-cerrar alertas después de 5 segundos
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        }, 5000);
+    });
+    
+    // Validar archivos antes de subir
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                // Validar tamaño (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('El archivo no puede pesar más de 5MB');
+                    this.value = '';
+                    return false;
+                }
+                
+                // Validar tipo según el campo
+                let allowedTypes = [];
+                if (this.name === 'documento_identificacion') {
+                    allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+                } else if (this.name === 'curriculum_vitae') {
+                    allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                }
+                
+                if (allowedTypes.length > 0 && !allowedTypes.includes(file.type)) {
+                    alert('Formato de archivo no permitido para CV: PDF, DOC, DOCX');
+                    this.value = '';
+                    return false;
+                }
+                
+                // Mensaje de confirmación para CV
+                if (this.name === 'curriculum_vitae') {
+                    if (confirm('¿Estás seguro de que quieres subir/actualizar tu CV? Este archivo se guardará en tu perfil.')) {
+                        return true;
+                    } else {
+                        this.value = '';
+                        return false;
+                    }
+                }
+            }
+        });
+    });
+});
+</script>
+
+<style>
+/* Estilos adicionales para las estadísticas mini */
+.aplicaciones-stats {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.stats-summary {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.stat-mini {
+    text-align: center;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: var(--border-radius);
+    flex: 1;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* Ajustar grid para 2 columnas */
+.perfil-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.aplicaciones-panel {
+    grid-column: span 1;
+}
+
+/* Responsive para 2 columnas */
+@media (max-width: 1024px) {
+    .perfil-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-summary {
+        flex-direction: column;
+    }
+    
+    .stat-mini {
+        padding: 0.75rem;
+    }
+}
+.documento-upload {
+    display: block !important;
+    visibility: visible !important;
+}
+
+.btn-outline {
+    background: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    color: #495057 !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+}
+</style>
+{% endblock %}

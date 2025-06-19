@@ -1,0 +1,719 @@
+/* CSS para la página de inicio - Bolsa de Trabajo Atizapán de Zaragoza */
+/* Usando colores y tipografías institucionales */
+
+/* Importar tipografías institucionales */
+@import url('https://fonts.googleapis.com/css2?family=Averta:wght@300;400;500;600;700&family=Newake:wght@400;500;600;700&display=swap');
+
+/* ========================================
+   VARIABLES INSTITUCIONALES
+   ======================================== */
+:root {
+    /* Colores Institucionales Atizapán - EXACTOS */
+    --primary-purple: #4d4383;        /* Morado principal institucional */
+    --primary-blue: #6767a5;          /* Azul principal institucional */
+    --primary-teal: #56858d;          /* Verde azulado institucional */
+    --primary-cyan: #79b0cc;          /* Cian institucional */
+    --primary-pink: #b64f80;          /* Rosa institucional */
+    --institutional-gray: #585958;     /* Gris institucional */
+    
+    /* Gradientes institucionales usando SOLO colores oficiales */
+    --gradient-primary: linear-gradient(135deg, #4d4383 0%, #6767a5 50%, #56858d 100%);
+    --gradient-secondary: linear-gradient(45deg, #79b0cc 0%, #56858d 100%);
+    --gradient-accent: linear-gradient(135deg, #b64f80 0%, #4d4383 100%);
+    --gradient-background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    
+    /* Tipografías institucionales */
+    --font-primary: 'Averta', system-ui, -apple-system, sans-serif;
+    --font-secondary: 'Newake', Georgia, serif;
+    
+    /* Solo colores neutros necesarios */
+    --white: #ffffff;
+    --light-bg: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-800: #1e293b;
+    
+    /* Espaciado usando colores institucionales */
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --shadow-sm: 0 2px 4px rgba(77, 67, 131, 0.08);
+    --shadow-md: 0 8px 25px rgba(77, 67, 131, 0.15);
+    --shadow-lg: 0 16px 40px rgba(77, 67, 131, 0.20);
+    --shadow-xl: 0 24px 50px rgba(77, 67, 131, 0.25);
+    
+    /* Transiciones */
+    --transition-fast: 0.15s ease-out;
+    --transition-normal: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
+}
+
+/* Reset y configuración base */
+* {
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--gray-800);
+    background: var(--gradient-background);
+}
+
+/* ========================================
+   BOTONES DE ESQUINA SUPERIOR DERECHA
+   ======================================== */
+.login-corner {
+    position: absolute;
+    top: 8rem;
+    right: 2rem;
+    z-index: 1000;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-login-corner,
+.btn-faq-corner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-login-corner {
+    background: var(--gradient-primary);
+}
+
+.btn-login-corner:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+}
+
+.btn-faq-corner {
+    background: var(--gradient-secondary);
+}
+
+.btn-faq-corner:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+}
+
+.icon-login-corner,
+.icon-faq-corner {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* ========================================
+   HERO SECTION PRINCIPAL
+   ======================================== */
+.hero-bolsa {
+    padding: 5rem 2rem 6rem;
+    background: var(--gradient-background);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bolsa::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-primary);
+    box-shadow: 0 2px 10px rgba(77, 67, 131, 0.3);
+}
+
+.hero-bolsa::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1.5" fill="rgba(77,67,131,0.05)"/><circle cx="80" cy="80" r="2" fill="rgba(103,103,165,0.03)"/><circle cx="60" cy="40" r="1" fill="rgba(86,133,141,0.04)"/></svg>') repeat;
+    animation: float 12s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-15px) translateX(8px); }
+    66% { transform: translateY(8px) translateX(-8px); }
+}
+
+.hero-container {
+    max-width: 1400px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   IMAGEN PRINCIPAL
+   ======================================== */
+.hero-image {
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.hero-image::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(77, 67, 131, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.bolsa-image {
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(77, 67, 131, 0.2));
+    transition: var(--transition-slow);
+}
+
+.bolsa-image:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(0 15px 40px rgba(77, 67, 131, 0.3));
+}
+
+/* ========================================
+   TEXTO DESCRIPTIVO
+   ======================================== */
+.hero-text {
+    margin-bottom: 5rem;
+    position: relative;
+}
+
+.hero-description {
+    font-size: 1.75rem;
+    line-height: 1.7;
+    color: var(--primary-purple);
+    font-weight: 500;
+    margin: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: var(--font-primary);
+    text-shadow: 0 1px 2px rgba(77, 67, 131, 0.1);
+    position: relative;
+}
+
+.hero-description::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+/* ========================================
+   CONTENEDOR DE BOTONES
+   ======================================== */
+.hero-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ========================================
+   CARDS DE BOTONES
+   ======================================== */
+.button-card {
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    padding: 3rem 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    border: 2px solid var(--gray-200);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.button-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        transparent 0%, 
+        rgba(77, 67, 131, 0.02) 50%,
+        transparent 100%);
+    opacity: 0;
+    transition: var(--transition-normal);
+    pointer-events: none;
+}
+
+.button-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-teal);
+}
+
+.button-card:hover::before {
+    opacity: 1;
+}
+
+/* ========================================
+   ICONOS DE LOS BOTONES
+   ======================================== */
+.button-icon {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.button-icon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(77, 67, 131, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.icon-search,
+.icon-female,
+.icon-building {
+    width: 120px;
+    height: 120px;
+    transition: var(--transition-normal);
+    position: relative;
+    z-index: 1;
+}
+
+.button-card:hover .icon-search,
+.button-card:hover .icon-female,
+.button-card:hover .icon-building {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Colores institucionales para cada ícono */
+.icon-search {
+    filter: sepia(1) saturate(2) hue-rotate(220deg) brightness(0.9);
+}
+
+.icon-female {
+    filter: sepia(1) saturate(2) hue-rotate(300deg) brightness(1.1);
+}
+
+.icon-building {
+    filter: sepia(1) saturate(2) hue-rotate(180deg) brightness(0.8);
+}
+
+/* ========================================
+   BOTONES PRINCIPALES
+   ======================================== */
+.btn-main {
+    display: inline-block;
+    padding: 1.25rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    min-width: 300px;
+    font-family: var(--font-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: var(--transition-slow);
+}
+
+.btn-main:hover::before {
+    left: 100%;
+}
+
+/* Botón Consulta nuestras vacantes - Gradiente primario institucional */
+.btn-vacantes {
+    background: var(--gradient-primary);
+}
+
+.btn-vacantes:hover {
+    transform: scale(1.05) translateY(-2px);
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Botón Vacantes Para Mujeres - Gradiente accent institucional */
+.btn-mujeres {
+    background: var(--gradient-accent);
+}
+
+.btn-mujeres:hover {
+    transform: scale(1.05) translateY(-2px);
+    color: var(--white);
+    box-shadow: 0 8px 30px rgba(182, 79, 128, 0.4);
+}
+
+/* Botón Empresas - Gradiente secundario institucional */
+.btn-empresas {
+    background: var(--gradient-secondary);
+}
+
+.btn-empresas:hover {
+    transform: scale(1.05) translateY(-2px);
+    color: var(--white);
+    box-shadow: 0 8px 30px rgba(86, 133, 141, 0.4);
+}
+
+/* ========================================
+   TIPOGRAFÍA INSTITUCIONAL
+   ======================================== */
+h1, h2, h3 {
+    font-family: var(--font-secondary);
+    color: var(--primary-purple);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+h4, h5, h6 {
+    font-family: var(--font-primary);
+    color: var(--institutional-gray);
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+p, span, div {
+    font-family: var(--font-primary);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 1200px) {
+    .hero-buttons {
+        gap: 2rem;
+        max-width: 1100px;
+    }
+    
+    .button-card {
+        padding: 2.5rem 1.25rem;
+    }
+    
+    .btn-main {
+        font-size: 1rem;
+        padding: 1.125rem 2rem;
+        min-width: 260px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-buttons {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .button-card {
+        padding: 2rem 1rem;
+    }
+    
+    .icon-search,
+    .icon-female,
+    .icon-building {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .btn-main {
+        font-size: 0.95rem;
+        padding: 1rem 1.75rem;
+        min-width: 220px;
+    }
+    
+    .hero-description {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-bolsa {
+        padding: 3rem 1rem 4rem;
+        min-height: 90vh;
+    }
+    
+    .login-corner {
+        top: 6rem;
+        right: 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn-login-corner,
+    .btn-faq-corner {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+    }
+    
+    .bolsa-image {
+        max-width: 500px;
+    }
+    
+    .hero-description {
+        font-size: 1.375rem;
+        line-height: 1.6;
+        padding: 0 1rem;
+    }
+    
+    .hero-buttons {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .button-card {
+        padding: 2.5rem 1.5rem;
+        margin: 0 auto;
+        max-width: 400px;
+    }
+    
+    .icon-search,
+    .icon-female,
+    .icon-building {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .btn-main {
+        font-size: 1rem;
+        padding: 1.25rem 2rem;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-bolsa {
+        padding: 2rem 0.5rem 3rem;
+    }
+    
+    .login-corner {
+        top: 4rem;
+        right: 0.75rem;
+    }
+    
+    .btn-login-corner,
+    .btn-faq-corner {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+        gap: 0.5rem;
+    }
+    
+    .icon-login-corner,
+    .icon-faq-corner {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .bolsa-image {
+        max-width: 350px;
+    }
+    
+    .hero-description {
+        font-size: 1.25rem;
+        padding: 0 0.5rem;
+    }
+    
+    .button-card {
+        padding: 2rem 1rem;
+        margin: 0 0.5rem;
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .icon-search,
+    .icon-female,
+    .icon-building {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .btn-main {
+        font-size: 0.9rem;
+        padding: 1.125rem 1.75rem;
+        min-width: 250px;
+        letter-spacing: 0.5px;
+    }
+}
+
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.hero-image {
+    animation: fadeInScale 1s ease-out;
+}
+
+.hero-text {
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.button-card {
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.button-card:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+.button-card:nth-child(3) {
+    animation-delay: 1s;
+}
+
+/* ========================================
+   MEJORAS PARA ACCESIBILIDAD
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible para mejor accesibilidad */
+.btn-main:focus-visible,
+.btn-login-corner:focus-visible {
+    outline: 3px solid var(--primary-teal);
+    outline-offset: 3px;
+}
+
+/* ========================================
+   EFECTOS ESPECIALES INSTITUCIONALES
+   ======================================== */
+.institutional-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Partículas flotantes con colores institucionales */
+.hero-bolsa .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-teal);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: particleFloat 6s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   ESTILOS PARA IMPRESIÓN
+   ======================================== */
+@media print {
+    .login-corner,
+    .hero-bolsa::before,
+    .hero-bolsa::after {
+        display: none !important;
+    }
+    
+    .hero-bolsa {
+        background: white !important;
+        padding: 2rem !important;
+    }
+    
+    .button-card {
+        break-inside: avoid;
+        box-shadow: none !important;
+        border: 1px solid var(--institutional-gray) !important;
+    }
+    
+    .btn-main {
+        color: var(--primary-purple) !important;
+        background: white !important;
+        border: 2px solid var(--primary-purple) !important;
+    }
+}

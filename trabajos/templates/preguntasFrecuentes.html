@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Preguntas Frecuentes | Bolsa de Trabajo Atizapán{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'preguntasFrecuentes.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Header que ocupa todo el ancho -->
+<div class="row justify-content-center my-5">
+    <div class="col-12 text-center">
+        <div class="home-text">
+            <h1>Preguntas Frecuentes</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Contenido con contenedor -->
+<div class="container-fluid">
+    <div class="row my-5">
+        <div class="col-md-6">
+
+            <h5>Para Ciudadanos</h5>
+            <div class="accordion" id="faqs1">
+
+            <div class="card">
+                <div class="card-header" id="heading1">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse1" 
+                        aria-expanded="false" aria-controls="collapse1">
+                        1. ¿Qué es el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza y cómo funciona?
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse1" class="collapse" aria-labelledby="heading1" data-bs-parent="#faqs1">
+                    <div class="card-body">
+                        <div>
+                        El Sistema de Bolsa de Trabajo de Atizapán de Zaragoza es una plataforma en línea que permite a los ciudadanos del municipio buscar y postularse a ofertas de empleo de manera gratuita. Las empresas registradas en el sistema pueden publicar sus vacantes y gestionar el proceso de selección de candidatos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="heading2">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse2" 
+                        aria-expanded="false" aria-controls="collapse2">
+                        2. ¿Cómo puedo registrarme en el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse2" class="collapse" aria-labelledby="heading2" data-bs-parent="#faqs1">
+                    <div class="card-body">
+                        <div>
+                            Para registrarte en el sistema, debes acceder al sitio web 
+                            <a href="https://atizapan.gob.mx/BolsaDeTrabajo/">https://atizapan.gob.mx/BolsaDeTrabajo/</a> y completar el formulario de registro con tus datos personales y de contacto. Una vez completado el formulario, recibirás un correo electrónico de confirmación con tu usuario y contraseña.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="heading3">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse3" 
+                        aria-expanded="false" aria-controls="collapse3">
+                        3. ¿Cómo puedo buscar ofertas de empleo en el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse3" class="collapse" aria-labelledby="heading3" data-bs-parent="#faqs1">
+                    <div class="card-body">
+                        <div>
+                            Una vez registrado en el sistema, puedes acceder a la sección de búsqueda de ofertas de empleo. Puedes filtrar la búsqueda por palabras clave, ubicación, tipo de empleo, salario y otros criterios. También puedes guardar las ofertas que te interesen para poder consultarlas posteriormente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="heading4">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse4" 
+                        aria-expanded="false" aria-controls="collapse4">
+                        4. ¿Cómo puedo postularme a una oferta de empleo en el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse4" class="collapse" aria-labelledby="heading4" data-bs-parent="#faqs1">
+                    <div class="card-body">
+                        <div>
+                            Para postularte a una oferta de empleo, debes seleccionar la oferta que te interesa y hacer clic en el botón "Postularme". Se te pedirá que completes un formulario con tu información académica, laboral y experiencia profesional. También puedes adjuntar tu currículum vitae.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" id="heading5">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse5" 
+                        aria-expanded="false" aria-controls="collapse5">
+                        5. ¿Cómo puedo saber si he sido seleccionado para una entrevista?
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse5" class="collapse" aria-labelledby="heading5" data-bs-parent="#faqs1">
+                    <div class="card-body">
+                        <div>
+                            Las empresas se pondrán en contacto directamente contigo si te seleccionan para una entrevista. Puedes revisar tu bandeja de entrada de correo electrónico y tu teléfono para ver si has recibido alguna notificación.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        </div>
+        <div class="col-md-6">
+
+            <h5>Para Empresas</h5>
+            <div class="accordion" id="faqs2">
+
+                <div class="card">
+                    <div class="card-header" id="heading6">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse6" 
+                            aria-expanded="false" aria-controls="collapse6">
+                            6. ¿Cómo puedo registrar mi empresa en el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse6" class="collapse" aria-labelledby="heading6" data-bs-parent="#faqs2">
+                        <div class="card-body">
+                            <div>
+                                Para registrar tu empresa en el sistema, debes acceder al sitio web 
+                                <a href="https://atizapan.gob.mx/BolsaDeTrabajo/">https://atizapan.gob.mx/BolsaDeTrabajo/</a> y completar el formulario de registro con los datos de tu empresa. Una vez completado el formulario, recibirás un correo electrónico de confirmación con tu usuario y contraseña.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="heading7">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse7" 
+                            aria-expanded="false" aria-controls="collapse7">
+                            7. ¿Cómo puedo publicar una oferta de empleo en el Sistema de Bolsa de Trabajo de Atizapán de 
+                            Zaragoza?
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse7" class="collapse" aria-labelledby="heading7" data-bs-parent="#faqs2">
+                        <div class="card-body">
+                            <div>
+                                Una vez registrada tu empresa en el sistema, puedes acceder a la sección de publicación 
+                                de ofertas de empleo. Completa el formulario con la información de la vacante, como el 
+                                puesto de trabajo, las responsabilidades, los requisitos y el salario. También puedes 
+                                adjuntar una descripción detallada del puesto.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="heading8">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse8" 
+                            aria-expanded="false" aria-controls="collapse8">
+                            8. ¿Cómo puedo gestionar las postulaciones a mis ofertas de empleo?
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse8" class="collapse" aria-labelledby="heading8" data-bs-parent="#faqs2">
+                        <div class="card-body">
+                            <div>
+                                Puedes gestionar las postulaciones a tus ofertas de empleo desde la sección de gestión de candidatos del sistema. Puedes revisar los perfiles de los candidatos, preseleccionarlos y contactarlos para concertar entrevistas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="heading9">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse9" 
+                            aria-expanded="false" aria-controls="collapse9">
+                            9. ¿Qué beneficios tiene publicar mis ofertas de empleo en el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse9" class="collapse" aria-labelledby="heading9" data-bs-parent="#faqs2">
+                        <div class="card-body">
+                            <div>
+                                Publicar tus ofertas de empleo en el sistema tiene los siguientes beneficios:
+                                <ul>
+                                    <li>
+                                        Acceso a una gran base de datos de talento humano calificado.
+                                    </li>
+                                    <li>
+                                        Proceso de selección de candidatos más eficiente.
+                                    </li>
+                                    <li>
+                                        Reducción de costos de reclutamiento.
+                                    </li>
+                                    <li>
+                                        Mejora de la imagen de tu empresa como un empleador responsable.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header" id="heading10">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#collapse10" 
+                            aria-expanded="false" aria-controls="collapse10">
+                            10. ¿Cómo puedo obtener más información sobre el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza?
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapse10" class="collapse" aria-labelledby="heading10" data-bs-parent="#faqs2">
+                        <div class="card-body">
+                            <div>
+                                Si tienes más preguntas sobre el Sistema de Bolsa de Trabajo de Atizapán de Zaragoza, puedes consultar la sección de preguntas frecuentes del sitio web o ponerte en contacto con el personal del sistema a través del teléfono (55) 5572 2200 Ext. 2267.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+ 
+</div>
+{% endblock %}

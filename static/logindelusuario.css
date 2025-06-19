@@ -1,0 +1,658 @@
+/* CSS para el botón de inicio de sesión en esquina superior derecha */
+/* Importar tipografías institucionales */
+@import url('https://fonts.googleapis.com/css2?family=Averta:wght@300;400;500;600;700&family=Newake:wght@400;500;600;700&display=swap');
+
+/* ========================================
+   VARIABLES INSTITUCIONALES EXACTAS
+   ======================================== */
+:root {
+    /* Colores Institucionales Atizapán - EXACTOS */
+    --primary-purple: #4d4383;        /* Morado principal institucional */
+    --primary-blue: #6767a5;          /* Azul principal institucional */
+    --primary-teal: #56858d;          /* Verde azulado institucional */
+    --primary-cyan: #79b0cc;          /* Cian institucional */
+    --primary-pink: #b64f80;          /* Rosa institucional */
+    --institutional-gray: #585958;     /* Gris institucional */
+    
+    /* Gradientes institucionales usando SOLO colores oficiales */
+    --gradient-primary: linear-gradient(135deg, #4d4383 0%, #6767a5 50%, #56858d 100%);
+    --gradient-secondary: linear-gradient(45deg, #79b0cc 0%, #56858d 100%);
+    --gradient-accent: linear-gradient(135deg, #b64f80 0%, #4d4383 100%);
+    
+    /* Tipografías institucionales */
+    --font-primary: 'Averta', system-ui, -apple-system, sans-serif;
+    --font-secondary: 'Newake', Georgia, serif;
+    
+    /* Colores neutros necesarios */
+    --white: #ffffff;
+    --light-bg: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-300: #cbd5e1;
+    --gray-600: #475569;
+    --gray-700: #334155;
+    --gray-800: #1e293b;
+    
+    /* Espaciado usando colores institucionales */
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --shadow-sm: 0 2px 4px rgba(77, 67, 131, 0.08);
+    --shadow-md: 0 8px 25px rgba(77, 67, 131, 0.15);
+    --shadow-lg: 0 16px 40px rgba(77, 67, 131, 0.20);
+    --shadow-xl: 0 24px 50px rgba(77, 67, 131, 0.25);
+    
+    /* Transiciones */
+    --transition-fast: 0.15s ease-out;
+    --transition-normal: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
+}
+
+/* ========================================
+   BOTÓN DE LOGIN EN ESQUINA
+   ======================================== */
+.login-corner {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn-login-corner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.btn-login-corner:hover {
+    background: var(--gradient-accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+    text-decoration: none;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-login-corner:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-md);
+}
+
+.icon-login-corner {
+    width: 24px;
+    height: 24px;
+    transition: var(--transition-normal);
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.btn-login-corner:hover .icon-login-corner {
+    transform: scale(1.1);
+}
+
+/* Asegurar que el hero-bolsa tenga position relative */
+.hero-bolsa {
+    position: relative;
+}
+
+/* ========================================
+   CONTENEDOR PRINCIPAL DE LOGIN
+   ======================================== */
+.login-container {
+    min-height: 100vh;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="60" cy="40" r="1" fill="rgba(255,255,255,0.12)"/></svg>') repeat;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-10px) translateX(5px); }
+    66% { transform: translateY(5px) translateX(-5px); }
+}
+
+.login-wrapper {
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    min-height: 600px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   PESTAÑAS
+   ======================================== */
+.tabs {
+    display: flex;
+    background: var(--gradient-primary);
+}
+
+.tab-button {
+    flex: 1;
+    padding: 1.5rem 2rem;
+    border: none;
+    background: transparent;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border-bottom: 3px solid transparent;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+
+.tab-button.active {
+    color: var(--primary-purple);
+    background: var(--white);
+    border-bottom-color: var(--primary-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+
+/* ========================================
+   CONTENIDO DE PESTAÑAS
+   ======================================== */
+.tab-content {
+    display: none;
+    padding: 3rem;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container h2 {
+    color: var(--primary-purple);
+    margin-bottom: 0.75rem;
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-secondary);
+}
+
+.form-subtitle {
+    color: var(--institutional-gray);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    font-weight: 400;
+}
+
+/* ========================================
+   FORMULARIOS
+   ======================================== */
+.login-form,
+.register-form {
+    max-width: 100%;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 0;
+}
+
+.form-group {
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--primary-purple);
+    font-family: var(--font-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.25px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    background: var(--light-bg);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-teal);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(86, 133, 141, 0.1);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   ICONOS EN INPUTS DE LOGIN
+   ======================================== */
+.login-form .form-group {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-blue);
+    font-size: 1.1rem;
+    margin-top: 0.75rem;
+    pointer-events: none;
+}
+
+/* ========================================
+   ARCHIVOS
+   ======================================== */
+input[type="file"] {
+    padding: 0.875rem !important;
+    cursor: pointer;
+    border: 2px dashed var(--primary-teal) !important;
+    background: rgba(86, 133, 141, 0.05) !important;
+}
+
+input[type="file"]:hover {
+    background: rgba(86, 133, 141, 0.1) !important;
+    border-color: var(--primary-purple) !important;
+}
+
+.file-info {
+    display: block;
+    color: var(--institutional-gray);
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group small {
+    font-size: 0.8rem;
+    color: var(--institutional-gray);
+    margin-top: 0.5rem;
+    display: block;
+    font-family: var(--font-primary);
+    font-weight: 500;
+}
+
+/* ========================================
+   BOTONES
+   ======================================== */
+.btn-submit {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border: none;
+    padding: 1.25rem;
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    margin-top: 1.5rem;
+    letter-spacing: 0.25px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: var(--transition-slow);
+}
+
+.btn-submit:hover::before {
+    left: 100%;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* ========================================
+   ENLACES
+   ======================================== */
+.form-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.forgot-password {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.forgot-password:hover {
+    color: var(--primary-purple);
+    text-decoration: underline;
+}
+
+/* ========================================
+   MENSAJES
+   ======================================== */
+.messages-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    max-width: 400px;
+}
+
+.alert {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    font-family: var(--font-primary);
+    border-left: 4px solid;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-left-color: var(--primary-teal);
+    color: var(--primary-teal);
+}
+
+.alert-error {
+    background: linear-gradient(135deg, #fef2f2, #fecaca);
+    border-left-color: #ef4444;
+    color: #dc2626;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #f0f9ff, #dbeafe);
+    border-left-color: var(--primary-blue);
+    color: var(--primary-blue);
+}
+
+.close-alert {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-left: auto;
+    opacity: 0.7;
+    color: inherit;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: var(--transition-fast);
+}
+
+.close-alert:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   VALIDACIÓN VISUAL
+   ======================================== */
+.form-group input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.form-group input:valid:not(:focus):not(:placeholder-shown) {
+    border-color: var(--primary-teal);
+    background-color: #ecfdf5;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .login-corner {
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .btn-login-corner {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.85rem;
+    }
+    
+    .icon-login-corner {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .login-container {
+        padding: 1rem;
+    }
+    
+    .login-wrapper {
+        max-width: 100%;
+        border-radius: var(--border-radius-lg);
+        min-height: auto;
+    }
+    
+    .tab-content {
+        padding: 2rem 1.5rem;
+    }
+    
+    .form-container h2 {
+        font-size: 1.75rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .tab-button {
+        padding: 1.25rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .messages-container {
+        top: 1rem;
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-corner {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    .btn-login-corner {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+        gap: 0.5rem;
+    }
+    
+    .icon-login-corner {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .tab-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .form-container h2 {
+        font-size: 1.5rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .btn-submit {
+        padding: 1.125rem;
+        font-size: 1rem;
+    }
+    
+    .tab-button {
+        padding: 1rem 0.75rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* ========================================
+   MEJORAS PARA ACCESIBILIDAD
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible para mejor accesibilidad */
+.btn-submit:focus-visible,
+.tab-button:focus-visible,
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.forgot-password:focus-visible {
+    outline: 3px solid var(--primary-teal);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   ESTADOS DE CARGA
+   ======================================== */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    margin: -12.5px 0 0 -12.5px;
+    border: 3px solid rgba(77, 67, 131, 0.2);
+    border-top: 3px solid var(--primary-purple);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   EFECTOS ESPECIALES INSTITUCIONALES
+   ======================================== */
+.institutional-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ========================================
+   ESTILOS PARA IMPRESIÓN
+   ======================================== */
+@media print {
+    .login-corner,
+    .messages-container,
+    .btn-submit,
+    .tabs {
+        display: none !important;
+    }
+    
+    .login-container {
+        background: white !important;
+        padding: 1rem !important;
+    }
+    
+    .login-wrapper {
+        box-shadow: none !important;
+        border: 1px solid var(--institutional-gray) !important;
+    }
+    
+    .tab-content {
+        display: block !important;
+    }
+}
