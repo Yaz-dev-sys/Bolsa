@@ -164,3 +164,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Para desarro
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://bolsa-production.up.railway.app']
