@@ -1,1 +1,1 @@
-web: gunicorn bolsaTrabajo.wsgi
+web: gunicorn bolsaTrabajo.wsgipip
