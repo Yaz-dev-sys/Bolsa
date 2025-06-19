@@ -33,13 +33,18 @@
     
     <!-- Logo section -->
     <div class="logo-container">
+        <a href="{% url 'inicio' %}"></a>
        <img src="{% static 'imagenes/logoAtizapan.png' %}" alt="Atizapán de Zaragoza" class="logo">
+        </a>
     </div>
     
+
     
     <!-- Gradient bar after logo -->
     <div class="gradient-bar"></div>
 
+  {% block login %}
+    {% endblock %}
 <main>
     {% block content %}
     {% endblock %}

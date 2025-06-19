@@ -9,29 +9,14 @@
 
 {% endblock %}
 
-{% block content %}
+
+{% block login %}
 <!-- Hero Section - Bolsa de Trabajo -->
 <section class="hero-bolsa">
     <!-- Botón de Inicio de Sesión - Esquina superior derecha -->
-    <div class="login-corner">
-        <a href="{% url 'login_usuario' %}" class="btn-login-corner">
-            <svg viewBox="0 0 100 100" class="icon-login-corner">
-                <circle cx="50" cy="35" r="15" fill="#28a745"/>
-                <path d="M25 70 Q25 55 40 55 L60 55 Q75 55 75 70 L75 85 Q75 90 70 90 L30 90 Q25 90 25 85 Z" fill="#28a745"/>
-                <rect x="42" y="20" width="16" height="8" rx="2" fill="#34ce57"/>
-            </svg>
-            Iniciar Sesión
-        </a>
-       <a href="{% url 'preguntasFrecuentes' %}" class="btn-faq-corner">
-        <svg viewBox="0 0 100 100" class="icon-faq-corner">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="6"/>
-            <path d="M35 35 Q35 25 45 25 Q55 25 55 35 Q55 45 50 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="50" cy="65" r="3" fill="currentColor"/>
-        </svg>
-        Preguntas Frecuentes
-    </a>
-    </div>
 
+    {% endblock %}
+    {% block content %}
     <div class="hero-container">
         <!-- Imagen principal -->
         <div class="hero-image">
@@ -105,4 +90,22 @@
         </div>
     </div>
 </section>
+<div class="login-corner">
+    <a href="{% url 'login_usuario' %}" class="btn-login-corner">
+        <svg viewBox="0 0 100 100" class="icon-login-corner">
+            <circle cx="50" cy="35" r="15" fill="#28a745"/>
+            <path d="M25 70 Q25 55 40 55 L60 55 Q75 55 75 70 L75 85 Q75 90 70 90 L30 90 Q25 90 25 85 Z" fill="#28a745"/>
+            <rect x="42" y="20" width="16" height="8" rx="2" fill="#34ce57"/>
+        </svg>
+        Iniciar Sesión
+    </a>
+   <a href="{% url 'preguntasFrecuentes' %}" class="btn-faq-corner">
+    <svg viewBox="0 0 100 100" class="icon-faq-corner">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="6"/>
+        <path d="M35 35 Q35 25 45 25 Q55 25 55 35 Q55 45 50 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="50" cy="65" r="3" fill="currentColor"/>
+    </svg>
+    Preguntas Frecuentes
+</a>
+</div>
 {% endblock %}
