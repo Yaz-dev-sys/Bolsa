@@ -1,1 +1,1 @@
-web: gunicorn bolsaTrabajo.wsgipip
+web:python3 manage.py collectstatic && bolsaTrabajo.wsgipip
